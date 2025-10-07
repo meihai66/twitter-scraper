@@ -13,6 +13,7 @@ import (
 type NewTweet struct {
 	Text   string
 	Medias []*Media
+	ReplyToID string
 }
 
 type newTweet struct {
@@ -76,7 +77,9 @@ func (s *Scraper) CreateTweet(tweet NewTweet) (*Tweet, error) {
 		"semantic_annotation_ids": []string{},
 		"tweet_text":              tweet.Text,
 	}
-
+	if tweet.ReplyToID != "" {
+		variables["reply_to_tweet_id"] = tweet.ReplyToID
+	}
 	features := map[string]interface{}{
 		"communities_web_enable_tweet_community_results_fetch":                    true,
 		"c9s_tweet_anatomy_moderator_badge_enabled":                               true,
